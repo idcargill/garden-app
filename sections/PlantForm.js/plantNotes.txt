@@ -1,0 +1,68 @@
+
+User Entered
+Plant Name : (pre entered item names) mini munch
+Garden Family : Select: cucumbers
+Plant Family nerdy: Select: cucubrits,
+days to maturity: number 28-105 ish
+plant now: Radio: Yes/ no 
+date started: date,
+date planted outside: date
+Select: SELECT: starting method: indoor start, direct sow, transplant
+cost: $
+
+
+Server Side collected
+Date first recorded: date,
+Date last modified: date,
+
+weather planted high: degrees
+weather planted low: degrees
+
+harvest: SELECT: weight / count
+
+
+Client: 
+Auth login
+CRUD plants
+Check inventory of all entered items - UserDB
+Plant, Harvest, Take Notes with date  - UserDB
+
+
+Server:
+Auth user DB
+Database Connection - mongoDB
+Weather tracking - API - High, low, precipitation past 7 days/ season (cache)? 
+
+
+
+MODELS
+Plant:
+  id: 
+  plant name 
+  garden Family
+  nerdy family 
+  days to maturity 
+  general notes(api?)
+  liked plants
+  enemy plants
+  soil likes
+  fertilizer likes 
+  sun desires
+
+
+
+User:
+  id
+  firstName 
+  lastName
+  email
+
+  plants
+  date joined 
+  last logged in
+  current year yield {year totals}
+  previous yields {year totals}
+
+
+
+track yield to weather/precipitation/ 
