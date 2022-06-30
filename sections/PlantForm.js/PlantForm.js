@@ -1,49 +1,25 @@
 import { useState } from 'react';
 import { GardenFamilies } from '../../schema/plantFamilySchema';
-
-const PlantInputEnum = {
-  plantName : 'plantName',
-  plantFamily: 'plantFamily',
-  gardenFamily: 'gardenFamily',
-  daysToMaturity: 'daysToMaturity',
-  recordingDate: 'recordingDate',
-  datePlanted: 'datePlanted',
-  isPlanted: 'isPlanted',
-}
-
-const PlantDisplayName = {
-  plantName : 'Plant Name',
-  plantFamily : 'Plant Family',
-  daysToMaturity : 'Days to Maturity',
-  recordingDate: 'Date Recorded',
-  gardenFamily: 'Garden Family',
-  datePlanted: 'Date Planted',
-}
-
-const PlantFormSchema = {
-  plantName: '',
-  plantFamily: '',
-  daysToMaturity: 0,
-  gardenFamily: '',
-  recordingDate: '',
-  lastUpdated: '',
-  datePlanted: '',
-  isPlanted: 'false',
-}
+import { useGardenContext } from '../../sharedComponents/Context/GardenProvider';
+import {
+  PlantFormSchema,
+  PlantInputEnum,
+  PlantDisplayName,
+} from '../../sharedComponents/plantEnums';
 
 const validateForm = (form) => {
   const daysToMatureNumber = Number(form.daysToMaturity);
   const date = new Date();
 
   const datePlanted = () => {
-    const plantedDate = form.isPlanted ? date : '';
+    const plantedDate = form.isPlanted === 'true' ? date : '';
     return plantedDate;
   }
 
 
   // Validated user input for DB submission
   return {
-    plantName: form.plantName,
+    plantName: form.plantName.replaceAll(/[<>\/]/gi, ''),
     plantFamily: form.plantFamily,
     daysToMaturity: daysToMatureNumber,
     recordingDate: date,
@@ -57,7 +33,7 @@ const validateForm = (form) => {
 const PlantForm = ({ showForm }) => {
   const [ plantForm, setPlantForm ] = useState(PlantFormSchema);
   const gardenFamiliesSorted = GardenFamilies.sort();
-
+  
   const handleChange = (e) => {
     const formInput = e.target.name;
     const value = e.target.value;
@@ -65,13 +41,19 @@ const PlantForm = ({ showForm }) => {
       setPlantForm({...plantForm, [formInput]: value })
     }
   }
-
+  const state = useGardenContext();
+  console.log(state)
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const validatedForm = validateForm(plantForm);
+    state.setGardenState({...state, plants: [...state.plants, validatedForm]})
+
+    
     e.target.reset();
     setPlantForm(PlantFormSchema)
     console.log('validated ', validatedForm)
+    console.log(state)
   }
 
   return (
@@ -160,7 +142,7 @@ const PlantForm = ({ showForm }) => {
               type="radio"
               id='plantedYes'
               name={PlantInputEnum.isPlanted}
-              value='true'
+              value={true}
               />
           </div>
        
@@ -170,7 +152,7 @@ const PlantForm = ({ showForm }) => {
                 type="radio"
                 id='plantedNo'
                 name={PlantInputEnum.isPlanted}
-                value='false'
+                value={false}
                 />
           </div>
         </div>

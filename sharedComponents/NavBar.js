@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 const routes = {
   Home: '/',
-  About: '/AboutPage',
-  Inventory: '/InventoryPage'
+  About: '/aboutPage',
+  Inventory: '/inventoryPage'
 }
 
 const NavBar = () => {
